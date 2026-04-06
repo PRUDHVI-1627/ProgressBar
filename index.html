@@ -4,28 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Bar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="skill">
-        <div class="outer">
-            <div class="inner">
-                <div id="number">
-                    65%
-                </div>
+
+    <div class="ring-wrap">
+        <div class="shell">
+            <div class="core">
+                <span class="pct-num" id="num">0</span>
+                <span class="pct-label">percent</span>
             </div>
         </div>
+        <svg width="180" height="180" viewBox="0 0 180 180">
+            <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e91e63"/>
+                    <stop offset="100%" stop-color="#673ab7"/>
+                </linearGradient>
+            </defs>
+            <circle cx="90" cy="90" r="82"
+                fill="none"
+                stroke="#e8e8e8"
+                stroke-width="10"
+                opacity="0.4"
+            />
+            <circle id="ring" cx="90" cy="90" r="82"
+                fill="none"
+                stroke="url(#grad)"
+                stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="515"
+                stroke-dashoffset="515"
+            />
+        </svg>
     </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
-         <defs>
-            <linearGradient id="GradientColor">
-               <stop offset="0%" stop-color="#e91e63" />
-               <stop offset="100%" stop-color="#673ab7" />
-            </linearGradient>
-         </defs>
-         <circle cx="80" cy="80" r="70" stroke-linecap="round" />
- </svg>
+    <p class="skill-name">javascript</p>
+
+    <div class="btn-row">
+        <button id="replayBtn">replay</button>
+        <button id="resetBtn">reset</button>
+    </div>
+
+    <script>
+        const ring = document.getElementById('ring');
+        const numEl = document.getElementById('num');
+        const replayBtn = document.getElementById('replayBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        const TARGET = 65;
+        const CIRCUMFERENCE = 515;
+
+        function offsetFor(pct) {
+            return CIRCUMFERENCE - (CIRCUMFERENCE * pct / 100);
+        }
+
+        let count = 0;
+        let timer = null;
+
+        function reset() {
+            clearInterval(timer);
+            count = 0;
+            numEl.textContent = '0';
+            ring.style.transition = 'none';
+            ring.style.strokeDashoffset = CIRCUMFERENCE;
+        }
+
+        function runAnim() {
+            reset();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    ring.style.transition = 'stroke-dashoffset 0.04s linear';
+                    timer = setInterval(() => {
+                        if (count >= TARGET) {
+                            clearInterval(timer);
+                            return;
+                        }
+                        count++;
+                        numEl.textContent = count;
+                        ring.style.strokeDashoffset = offsetFor(count);
+                    }, 30);
+                });
+            });
+        }
+
+        replayBtn.addEventListener('click', runAnim);
+        resetBtn.addEventListener('click', reset);
+
+        runAnim();
+    </script>
 
 </body>
 </html>
