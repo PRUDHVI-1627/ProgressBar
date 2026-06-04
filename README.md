@@ -2,6 +2,8 @@
 
 A lightweight, neumorphic-styled circular progress bar built with pure HTML, CSS, and JavaScript. No libraries, no dependencies.
 
+<img width="1096" height="554" alt="Progress Bar Preview" src="https://github.com/user-attachments/assets/2f0d0ad3-3677-424b-9bfe-9be0149fb0fc" />
+
 ---
 
 ## Preview
@@ -31,8 +33,8 @@ No build tools or installs needed.
 2. Open `index.html` in any modern browser
 
 ```bash
-git clone https://github.com/your-username/circular-progress-bar.git
-cd circular-progress-bar
+git clone https://github.com/PRUDHVI-1627/ProgressBar.git
+cd ProgressBar
 open index.html
 ```
 
